@@ -8,7 +8,7 @@
                 <span>当前定位城市：</span>
                 <span>定位不准时请在城市列表中选择</span>
             </div>
-            <router-link to="/city/广安" class="guess_city">
+            <router-link :to="`/city/广安/${guess.id}`" class="guess_city">
                 <span>{{guess.name}}</span>
                 <svg class="arrow_right">
                     <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#arrow-right" />
@@ -18,7 +18,7 @@
         <section id="hot_city_container">
             <h4 class="city_title">热门城市</h4>
             <ul class="city_list_ul">
-                <router-link tag="li" :to="`/city/${i.name}`" v-for="i in hotList " :key="i.id">{{i.name}}</router-link>
+                <router-link tag="li" :to="`/city/${i.name}/${i.id}`" v-for="i in hotList " :key="i.id">{{i.name}}</router-link>
             </ul>
         </section>
         <section class="group_city_container">
@@ -29,7 +29,7 @@
                         <span>按字母排序</span>
                     </h4>
                     <ul class="city_list_ul groupcity_name_container">
-                        <router-link tag="li" :to="`/city/${j.name}`" v-for="j in groupMap[i]" :key="j.id" ellipsis >{{j.name}}</router-link>
+                        <router-link tag="li" :to="`/city/${j.name}/${j.id}`" v-for="j in groupMap[i]" :key="j.id" ellipsis >{{j.name}}</router-link>
                     </ul>
                 </li>
             </ul>
@@ -39,7 +39,7 @@
 
 <script>
 import headTop from "../components/header/head.vue";
-
+import {cityGuess, hotCity, groupCity} from "../service/getData";
 export default {
     name: "home",
     components: {
@@ -70,21 +70,19 @@ export default {
         Char(i){
             let j=String.fromCharCode(65+i);
 
-            console.log(j);
             return j;
         }
     },
     async created() {
-        let guess = await fetch("https://elm.cangdu.org/v1/cities?type=guess");
-        let guess_json = await guess.json();
-        this.guess = guess_json;
-        let hot = await fetch("https://elm.cangdu.org/v1/cities?type=hot");
-        let hot_json = await hot.json();
-        this.hotList = hot_json;
-        let group = await fetch("https://elm.cangdu.org/v1/cities?type=group");
-        let group_json = await group.json();
-        this.groupMap = group_json;
-    }
+        
+        this.guess =  await cityGuess();
+      
+        this.hotList =await hotCity();
+       
+        this.groupMap =await groupCity();
+       
+       
+   }
 };
 </script>
 

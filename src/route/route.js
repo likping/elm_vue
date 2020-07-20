@@ -2,6 +2,7 @@ import App from "../App.vue";
 const home = r => require.ensure([], () => r(require("../page/home.vue")));
 const login = r => require.ensure([], () => r(require("../page/login.vue")));
 const city = r => require.ensure([], () => r(require("../page/city.vue")));
+const msite = r => require.ensure([], () => r(require("../page/msite.vue")));
 export default [{
     path: "/",
     component: App,
@@ -17,9 +18,13 @@ export default [{
         component: login,
         name: "login"
     }, {
-        path: "/city/:name",
+        path: "/city/:name/:id",
         component: city,
         name: "city"
+    }, {
+        path: "/msite",
+        component: msite,
+        name: "msite"
     }
     ]
 }]

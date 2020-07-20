@@ -19,6 +19,8 @@
             </router-link>
         </div>
         <slot name="changcity"></slot>
+        <slot name="head_title"></slot>
+
     </header>
 </template>
 

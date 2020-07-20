@@ -4,16 +4,17 @@
             <router-link to="/home" slot="changcity" class="changcity">切换城市</router-link>
         </head-top>
         <section class="input_container">
-            <input type="search" name="address" placeholder="输入学校，商务楼，地址" />
-            <input type="submit" @click="post_msg"  />
+            <input type="search" name="address" placeholder="输入学校，商务楼，地址" required v-model="inputValue" />
+            <input type="submit" name="submit" @click="post_msg" value="提交"  />
         </section>
         <section class="history_container">
             <h4 v-if="historyTitle">搜索历史</h4>
             <section class="history">
                 <ul v-if="!historyTitle" class="history_group">
-                    <li class="history_li" v-for="i in 26" :key="i">
-                        {{i}}
-                    </li>
+                    <router-link tag="li"  :to="`/msite?geohash=${i.latitude},${i.longitude}`"  class="history_li" v-for="i in placeList" :key="i.name">
+                        <p> {{i.name}}</p>
+                        <p> {{i.address}}</p>
+                    </router-link>
                 </ul>
                 <p v-if="!historyTitle&&!has_result" class="no_result">很抱歉！无搜索结果</p>
             </section>
@@ -24,6 +25,7 @@
 
 <script>
 import headTop from "../components/header/head.vue";
+import {searchPlace} from "../service/getData.js";
 export default {
     name: "city",
     components: {
@@ -33,13 +35,19 @@ export default {
         return {
             historyTitle:true,
             placeList:[],
-            has_result:true
+            has_result:true,
+            inputValue:''
         }
     },
     methods:{
-            post_msg(){
+            async post_msg(){
+                if(this.inputValue){
                 this.historyTitle=false;
-            }
+                let res=await searchPlace(this.$route.params.id,this.inputValue);
+                this.has_result= res.length > 0?true:false;
+                this.placeList=res;
+                }
+          }
     }
 };
 </script>
@@ -59,6 +67,7 @@ export default {
     padding-left:1.5rem;
     padding-right: 1.5rem;
     background: white;
+    border-bottom :1px solid $bc;
     input {
         @include wh(100%, 1.5rem);
         border: 1px solid $bc;
@@ -82,10 +91,20 @@ export default {
     .history{
            background:white;
            .history_group{
-               padding: 0 0.5rem;
-               .history_li{
-                   @include wh(100%,2.5rem);
+                .history_li{
+                    padding:0 0.6rem;
+                    padding-top:0.8rem; 
+                    
+                   @include wh(100%,3.5rem);
                    border-bottom: 1px solid $bc;
+                   p:nth-of-type(1){
+                       @include sc(0.65rem,#111);
+                       @include wh(100%,'fit-content');
+                       margin: 0.1rem 0;
+                       }
+                   p:nth-of-type(2){
+                       @include sc(0.5rem,$fgc);
+                   }
                }
            }
     }
