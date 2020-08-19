@@ -60,8 +60,6 @@ export default {
                if(j in this.groupMap){
                     temp.push(j);
                }
-              
-
             }
            return temp;
         }
@@ -69,7 +67,6 @@ export default {
     methods:{
         Char(i){
             let j=String.fromCharCode(65+i);
-
             return j;
         }
     },

@@ -2,6 +2,7 @@ $blue: #3190e8;
 $bc: #e4e4e4;
 $fc:#fff;
 $fgc:#5f4c4c85;
+$gap:#f5f5f5;
 //adress and size of image in background
 @mixin bis($url) {
     background-image:url($url);
@@ -12,7 +13,6 @@ $fgc:#5f4c4c85;
 @mixin borderRadius($radius){
      border-radius: $radius;
 }
-
 @mixin allcover{
     position: absolute;
     top:0;

@@ -1,7 +1,7 @@
-export const setStor = (name, content) => {
+export const setStore = (name, content) => {
     if (!name) return;
     if (typeof context != "string") {
-        contetn = JSON.stringify(content);
+        content = JSON.stringify(content);
 
     }
     window.localStorage.setItem(name, content);
@@ -70,7 +70,7 @@ export const loadMore = (element, callback) => {
         //你希望执行一个动画,并且要求浏览器在下次重绘之前调用指定的回调函数更新动画
         requestFram = requestAnimationFrame(() => {
             if (document.body.scrollTop != oldScrollTop) {
-                oldScrollTop = documnet.body.scrollTop;
+                oldScrollTop = document.body.scrollTop;
                 loadMore();
                 moveEnd();
             } else {

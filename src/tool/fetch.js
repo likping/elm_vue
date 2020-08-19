@@ -6,7 +6,8 @@ import { baseUrl } from "../config/env";
  * @param {string} _type //  GET
  * @param {string} _method //  fetch
  */
-const fetch = async (_url="",_data={},_type="GET",_method="fetch") => {
+const fetch = async (_url = "", _data = {}, _type = "GET", _method = "fetch") => {
+    
     _url = baseUrl +'/'+ _url;
     _type = _type.toUpperCase();
   
@@ -24,7 +25,6 @@ const fetch = async (_url="",_data={},_type="GET",_method="fetch") => {
             _url = `${_url}?${datastr}`;
         }
     }
-    console.log(_url);
     if (window.fetch&&_method=="fetch") {
         let res = await window.fetch(_url);
         let json = await res.json();
